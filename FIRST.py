@@ -1,5 +1,4 @@
-from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g
-import os
+from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g, 
 import sqlite3
 from Fdatabase import Fdatabase
 app = Flask(__name__)
@@ -21,12 +20,6 @@ def get_db():
         g.link_db = connect_db()
     return g.link_db
 
-def create_db():
-    db = connect_db()
-    with app.open_resource('sq_db.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
-    db.close()
 
 @app.teardown_appcontext
 def close_db(error):
@@ -43,14 +36,15 @@ def profile(name):
     if 'userLogged' not in session or session['userLogged'] != name:
         abort(401)
     db=get_db()
-    dbase = Fdatabase(db)               
+    dbase = Fdatabase(db)              
     if request.method == 'POST':
-        if 'todel' not in request.form:
+        if 'file' in request.files:
             file = request.files['file'].read()
-            dbase.add_file(name,file)
-        elif request.form['todel'] != '':
-            dbase.delete_file(request.form['todel'],session['userLogged'])
-    return render_template('logged.html', images=dbase.get_file(session['userLogged']))
+            if file != b'':
+                dbase.add_file(name,file)
+        if 'Delete' in request.form and request.form['num'] != '':
+            dbase.delete_file(request.form['num'],name) 
+    return render_template('logged.html', images=dbase.get_file(name))
 
 @app.route('/profile')
 def ds():
