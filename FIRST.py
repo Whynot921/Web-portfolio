@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g, 
+from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g 
 import sqlite3
 from Fdatabase import Fdatabase
 app = Flask(__name__)
