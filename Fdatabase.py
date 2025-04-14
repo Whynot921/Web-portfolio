@@ -1,6 +1,4 @@
 import sqlite3
-import io
-from PIL import Image
 import base64
 class Fdatabase:
     def __init__(self, db):
@@ -32,7 +30,6 @@ class Fdatabase:
         try:
             self.lenData
             binary = sqlite3.Binary(files)
-
             for i in range(1,self.lenData+1):
                 check = self.__cur.execute(f'''SELECT file{i} FROM accounts WHERE username=?''',(username,))
                 if check.fetchone()[0] is None:
@@ -49,7 +46,7 @@ class Fdatabase:
             return False
         return True
 
-    def get_file(self,username):
+    def get_file(self,username,index=None):
         try:
             files = []
             for i in range(1,self.lenData+1):
