@@ -63,15 +63,12 @@ def login():
     if 'userLogged' in session:
         return redirect(url_for('profile', name=session['userLogged']))
     elif request.method == 'POST':
-        if 'reg' not in request.form: 
-            if request.form['name'] in Accountsdict.keys():
-                if request.form['password'] == Accountsdict[request.form['name']]:
-                    session['userLogged'] = request.form['name']   
-                    return redirect(url_for('profile',name=session['userLogged']))
-                else:
-                    flash('Неверный пароль!')
+        if 'reg' not in request.form and request.form['name'] in Accountsdict.keys():
+            if request.form['password'] == Accountsdict[request.form['name']]:
+                session['userLogged'] = request.form['name']   
+                return redirect(url_for('profile',name=session['userLogged']))
             else:
-                flash('Аккаунта с таким именем не существует!')
+                flash('Неверный пароль!')
         elif 'reg' in request.form:
             if request.form['name'] not in Accountsdict.keys():
                 if len(request.form['password']) > 3:
@@ -81,10 +78,7 @@ def login():
             else:
                 flash('Это имя занято')
         else:
-            flash('Регистрация')
-
-    
-    
+            flash('Аккаунта с таким именем не существует!')
     return render_template('t.html')
 
 @app.route('/about')
