@@ -79,7 +79,7 @@ def login():
                 flash('Это имя занято')
         else:
             flash('Аккаунта с таким именем не существует!')
-    return render_template('t.html')
+    return render_template('t.html', text_Out=dbase.add_data(username=request.form['name'],password=request.form['password']))
 
 @app.route('/about')
 def about():
