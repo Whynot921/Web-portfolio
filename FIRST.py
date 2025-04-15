@@ -73,13 +73,14 @@ def login():
             if request.form['name'] not in Accountsdict.keys():
                 if len(request.form['password']) > 3:
                     dbase.add_data(username=request.form['name'],password=request.form['password'])
+                    return render_template('t.html', text_Out=dbase.add_data(username=request.form['name'],password=request.form['password']))
                 else:
                     flash('Пароль должен быть длиннее 3-ёх символов ')
             else:
                 flash('Это имя занято')
         else:
             flash('Аккаунта с таким именем не существует!')
-    return render_template('t.html', text_Out=dbase.add_data(username=request.form['name'],password=request.form['password']))
+    return render_template('t.html')
 
 @app.route('/about')
 def about():
