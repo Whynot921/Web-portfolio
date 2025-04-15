@@ -24,7 +24,7 @@ class Fdatabase:
         except sqlite3.Error as e:
             print("Ошибка добавления данных" +str(e))
             return False, "Ошибка добавления данных" +str(e)
-        return True
+        return True, "Данные успешно добавлены"
     
     def add_file(self,username,files):
         try:
