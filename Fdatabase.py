@@ -19,7 +19,7 @@ class Fdatabase:
     
     def add_data(self,username,password):
         try:
-            self.__cur.execute('''INSERT INTO accounts VALUES(?,?,NULL)''',(username, password))
+            self.__cur.execute('''INSERT INTO accounts (username, password) VALUES(?,?)''',(username, password))
             self.__db.commit()
         except sqlite3.Error as e:
             print("Ошибка добавления данных" +str(e))
