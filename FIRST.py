@@ -1,9 +1,12 @@
 from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g 
 import sqlite3
 import os
+import re
 from Fdatabase import Fdatabase
 app = Flask(__name__)
 
+regex = "^[a-zA-Zа-яА-ЯёЁ0123456789]+$"
+pattern = re.compile(regex)
 DEBUG = True
 SECRET_KEY='sdfsdfsdfsdfsdilvihnih'
 DATABASE="/tmp/Accounts.db"
@@ -71,9 +74,9 @@ def login():
                 flash('Неверный пароль!')
         elif 'reg' in request.form:
             if request.form['name'] not in Accountsdict.keys():
-                if len(request.form['password']) > 3:
-                    dbase.add_data(username=request.form['name'],password=request.form['password'])
-                    return render_template('t.html', text_Out=dbase.add_data(username=request.form['name'],password=request.form['password']))
+                if len(request.form['password']) > 3 and (pattern.search(requst.form['password']) is not None) and dbase.add_data(request.form['name'], request.form['password']): 
+                    session['userLogged'] = request.form['name']
+                    return redirect(url_for('profile',name=session['userLogged'])))
                 else:
                     flash('Пароль должен быть длиннее 3-ёх символов ')
             else:
