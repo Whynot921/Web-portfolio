@@ -43,7 +43,7 @@ def profile(name):
             file = request.files['file'].read()
             if file != b'':
                 dbase.add_file(name,file)
-        elif "ToDelete" in request.json.keys():
+        if 'file' not in request.file and "ToDelete" in request.json.keys():
             dbase.delete_file(int(request.json['ToDelete']),name)
     return render_template('logged.html', images=dbase.get_file(name))
 
