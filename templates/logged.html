@@ -78,7 +78,7 @@
     <div id="modalContainer"></div>
     <div class="gallery">
     {% for img in images %}
-      <img src="data:image/jpeg;base64,{{ img }}" width="200" height="300" class="gallery_img" id="{{ loop.index }}" ></img>
+      <img src="data:image/jpeg;base64,{{ img }}" width="200" height="300" class="gallery_img" data-image-id="{{ loop.index }}" ></img>
     {% endfor %}      
     </div>
     
