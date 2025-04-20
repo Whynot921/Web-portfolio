@@ -1,12 +1,8 @@
-from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g 
+from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g, send_file
 import sqlite3
-import os
-import re
 from Fdatabase import Fdatabase
 app = Flask(__name__)
 
-regex = "^[a-zA-Zа-яА-ЯёЁ0123456789]+$"
-pattern = re.compile(regex)
 DEBUG = True
 SECRET_KEY='sdfsdfsdfsdfsdilvihnih'
 DATABASE="/tmp/Accounts.db"
@@ -46,8 +42,8 @@ def profile(name):
             file = request.files['file'].read()
             if file != b'':
                 dbase.add_file(name,file)
-        if 'Delete' in request.form and request.form['num'] != '':
-            dbase.delete_file(request.form['num'],name) 
+        elif "ToDelete" in request.json.keys():
+            dbase.delete_file(int(request.json['ToDelete']),name)
     return render_template('logged.html', images=dbase.get_file(name))
 
 @app.route('/profile')
@@ -74,9 +70,9 @@ def login():
                 flash('Неверный пароль!')
         elif 'reg' in request.form:
             if request.form['name'] not in Accountsdict.keys():
-                if len(request.form['password']) > 3 and (pattern.search(requst.form['password']) is not None) and dbase.add_data(request.form['name'], request.form['password']): 
+                if len(request.form['password']) > 3 and dbase.add_data(request.form['name'], request.form['password']):
                     session['userLogged'] = request.form['name']
-                    return redirect(url_for('profile',name=session['userLogged'])))
+                    return redirect(url_for('profile',name=session['userLogged']))
                 else:
                     flash('Пароль должен быть длиннее 3-ёх символов ')
             else:
@@ -93,6 +89,7 @@ def about():
 def leave():
     session.clear()
     return redirect('/')
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  
