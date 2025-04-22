@@ -38,16 +38,15 @@ def profile(name):
         abort(401)
     db=get_db()
     dbase = Fdatabase(db)
-    flag = True
     if request.method == 'POST':
         if 'file' in request.files:
             file = request.files['file'].read()
             flag = False
             if file != b'':
                 dbase.add_file(name,file)
-        elif flag and "ToDelete" in request.json.keys():
-            dbase.delete_file(int(request.json['ToDelete']),name)
-        flag=True
+        elif 'Delete' in request.form and request.form['num'] != 0:
+            dbase.delete_file(request.form['num'], name)
+
     return render_template('logged.html', images=dbase.get_file(name))
 
 @app.route('/profile')
