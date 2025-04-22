@@ -37,14 +37,17 @@ def profile(name):
     if 'userLogged' not in session or session['userLogged'] != name:
         abort(401)
     db=get_db()
-    dbase = Fdatabase(db)              
+    dbase = Fdatabase(db)
+    flag = True
     if request.method == 'POST':
         if 'file' in request.files:
             file = request.files['file'].read()
+            flag = False
             if file != b'':
                 dbase.add_file(name,file)
-        elif "ToDelete" in request.json.keys():
+        elif flag and "ToDelete" in request.json.keys():
             dbase.delete_file(int(request.json['ToDelete']),name)
+        flag=True
     return render_template('logged.html', images=dbase.get_file(name))
 
 @app.route('/profile')
