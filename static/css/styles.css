@@ -11,23 +11,22 @@
 }
 body {
   margin: 0;
+  overflow-y: hidden;
   font-family: Arial, sans-serif;
 }
 
 .gallery {
   display: flex;
   flex-wrap: wrap;
-
+  background-color: #c0c0c0;
   padding: 10px;
   overflow-y: auto; /* Позволяет прокручивать */
   height: 100vh; /* Устанавливает высоту галереи */
 }
 
 .gallery_img {
-  max-width: 30%; /* Изображения будут занимать до 30% ширины контейнера */
   margin: 5px; /* Отступы между изображениями */
   border-radius: 8px; /* Скругление углов изображений */
-  outline: 2px solid rgb(0, 0, 0);
 }
 
 .inputD {
@@ -36,7 +35,6 @@ body {
   border-radius: 4px;
   flex: 1;
   width: 10%;
-  border-right: none;
   margin-right: 0%;
 }
 
@@ -44,12 +42,42 @@ body {
   padding: 10px 15px; /* Добавляем внутренние отступы */
   background-color: #757975; /* Цвет фона кнопки */
   color: white; /* Цвет текста на кнопке */
-  border-left: none; /* Убираем границу */
   border-radius: 4px; /* Скругляем углы кнопки */
   cursor: pointer; /* Указатель для мыши */
-  margin-left: -10px;
+  margin-left: 0px;
 }
 
 .button:hover {
   background-color: rgb(219, 12, 12); /* Изменяем цвет фона при наведении */
+}
+
+.button_succ {
+  padding: 10px 15px; /* Добавляем внутренние отступы */
+  background-color: #757975; /* Цвет фона кнопки */
+  color: white; /* Цвет текста на кнопке */
+  border-radius: 4px; /* Скругляем углы кнопки */
+  cursor: pointer; /* Указатель для мыши */
+  margin-left: 0px;
+}
+
+.button_succ:hover {
+  background-color: rgb(74, 145, 45); /* Изменяем цвет фона при наведении */
+}
+h1 {
+  font-size: 36px; /* Размер шрифта */
+  font-weight: bold; /* Жирное начертание */
+  color: #333; /* Цвет текста */
+  text-align: center; /* Выравнивание текста по центру */
+  margin: 20px 0; /* Отступы сверху и снизу */
+  text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  font-family: "Arial", sans-serif; /* Шрифт */
+}
+
+/* Стили для основного текста на сайте */
+p {
+  font-size: 16px; /* Размер шрифта */
+  line-height: 1.5; /* Межстрочный интервал */
+  color: #666; /* Цвет текста */
+  margin: 10px 0; /* Отступы сверху и снизу */
+  font-family: "Georgia", serif; /* Шрифт */
 }
