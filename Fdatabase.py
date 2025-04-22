@@ -62,7 +62,25 @@ class Fdatabase:
                 
     def delete_file(self,imgnum,username):
         try:
-            self.__cur.execute(f'''UPDATE accounts SET file{imgnum} = NULL WHERE username=?''',(username,))
+            lastFile = int()
+            for i in range(1,self.lenData+1):
+                check = self.__cur.execute(f'''SELECT file{i} FROM accounts WHERE username=?''',(username,))
+                if check.fetchone()[0] is None:
+                    lastFile = i-1
+                    break
+            if lastFile < 2:
+                self.__cur.execute(f'''UPDATE accounts SET file{imgnum} = NULL WHERE username=?''',(username,))
+                self.__db.commit()
+                return (True)
+            if lastFile == imgnum:
+                self.__cur.execute(f'''UPDATE accounts SET file{imgnum} = NULL WHERE username=?''',(username,))
+                self.__db.commit()
+                return (True)
+            self.__cur.execute(f'''SELECT file{lastFile} FROM accounts WHERE username=?''',(username,))
+            img = self.__cur.fetchone()[0]
+            self.__cur.execute(f'''UPDATE accounts SET file{lastFile} = NULL WHERE username=?''',(username,))
+            self.__db.commit()
+            self.__cur.execute(f'''UPDATE accounts SET file{imgnum} = ? WHERE username=?''',(img,username))
             self.__db.commit()
         except sqlite3.Error as e:
             print('Ошибка удаления данных ' + str(e))
