@@ -49,7 +49,7 @@ def profile(name):
                 dbase.add_file(name,file)
         if 'Download' in request.form and request.form['num'] != 0:
             file = dbase.get_file(name,request.form['num'])
-            return send_file(file, as_attachment=True, download_name=f'img{request.form['num']}.png', mimetype=f'img{request.form['num']}/png")
+            return send_file(file, as_attachment=True, download_name=f'img{request.form['num']}.png', mimetype=f'img{request.form['num']}/png')
         elif 'Delete' in request.form and request.form['num'] != 0:
             dbase.delete_file(request.form['num'], name)
 
