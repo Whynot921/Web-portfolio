@@ -61,7 +61,7 @@
           placeholder="Введите номер..."
         />
       <button type="submit" class="button" name="Delete">Удалить</button>
-
+      <button type="submit" class="button_succ" name="Download">Скачать</button>
       </form>
 
       <form action="" method="post" enctype="multipart/form-data">
@@ -82,11 +82,10 @@
           src="data:image/jpeg;base64,{{ img }}" 
           width="300px" 
           height="400px" 
-          id="{{ loop.index }}" 
           class="gallery_img"
           data-image-id = "{{loop.index}}"
         >
-      {% endfor %}      
+      {% endfor %}    
     </div>
     <script src="{{ url_for('static', filename='js/deleteImg.js') }}"></script>
   </body>
