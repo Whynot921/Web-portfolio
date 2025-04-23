@@ -1,12 +1,15 @@
 from flask import Flask, render_template, url_for, request, session, redirect, flash, abort, g, send_file
 import sqlite3
 import os
+import re
 from Fdatabase import Fdatabase
 app = Flask(__name__)
 
 DEBUG = True
 SECRET_KEY='sdfsdfsdfsdfsdilvihnih'
 DATABASE="/tmp/Accounts.db"
+regex = "^[a-zA-ZА-Яа-яёЁ0123456789_]+$"
+pattern = re.compile(regex)
 
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE='Accounts.db'))
@@ -72,14 +75,14 @@ def login():
             else:
                 flash('Неверный пароль!')
         elif 'reg' in request.form:
-            if request.form['name'] not in Accountsdict.keys():
-                if len(request.form['password']) > 3 and dbase.add_data(request.form['name'], request.form['password']):
+            if request.form['name'] not in Accountsdict.keys() and (pattern.search(request.form['name']) is not None):
+                if len(request.form['password']) > 3 and (pattern.search(request.form['password']) is not None) and dbase.add_data(request.form['name'], request.form['password']) :
                     session['userLogged'] = request.form['name']
                     return redirect(url_for('profile',name=session['userLogged']))
                 else:
-                    flash('Пароль должен быть длиннее 3-ёх символов ')
+                    flash('Пароль должен быть длиннее 3-ёх символов и состоять из допустимых символов ')
             else:
-                flash('Это имя занято')
+                flash('Это имя занято или оно состоит из недопустимых символов')
         else:
             flash('Аккаунта с таким именем не существует!')
     return render_template('t.html')
